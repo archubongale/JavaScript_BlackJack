@@ -14,6 +14,16 @@ describe("isExisting", function() {
     expect(isExisting(tableHands, card)).to.equal(true);
   });
 
+  it("returns true if card does exist in the deck", function() {
+    var card = ["spade", 1];
+    var card2 = ["heart", 3];
+    var tableHands = [];
+    tableHands.push(card);
+    tableHands.push(card2);
+    var newCard = ["heart", 3];
+    expect(isExisting(tableHands, newCard)).to.equal(true);
+  });
+
   it("returns false if card does NOT exist in the deck", function() {
     var card = ["spade", 1];
     var tableHands = [];
@@ -70,14 +80,42 @@ describe("calculateValues", function() {
   });
 });
 
-describe("isBust", function() {
-  it("should return true is hand value is greater than 21", function() {
-    var playerValueArray = [10, 10, 3];
-    expect(isBust(playerValueArray)).to.equal(true);
+
+describe("isContainAce",function() {
+  it("returns true if the array contains 1", function() {
+    var playerValueArray = [10, 1, 3];
+    expect(isContainAce(playerValueArray)).to.equal(true);
+  });
+});
+
+describe("gameResult",function() {
+  it("returns You Busted if total is greater than 21", function() {
+    var playerArray = [10, 10, 3];
+    var dealerArray = [10, 4, 3];
+    expect(gameResult(playerArray, dealerArray)).to.equal("You busted!!");
   });
 
-  it("should return false is hand value is less than 21", function() {
-    var playerValueArray = [10, 10];
-    expect(isBust(playerValueArray)).to.equal(false);
+  it("returns Dealer Busted if total is greater than 21", function() {
+    var playerArray = [10, 10, 1];
+    var dealerArray = [10, 4, 9];
+    expect(gameResult(playerArray, dealerArray)).to.equal("Dealer busted!!");
+  });
+
+  it("returns You win if player total is greater than dealer", function() {
+    var playerArray = [10, 10, 1];
+    var dealerArray = [10, 4, 3];
+    expect(gameResult(playerArray, dealerArray)).to.equal("You win!");
+  });
+
+  it("returns dealer wins if player total is less than dealer", function() {
+    var dealerArray = [10, 10, 1];
+    var playerArray = [10, 4, 3];
+    expect(gameResult(playerArray, dealerArray)).to.equal("Dealer win!");
+  });
+
+  it("returns tie if player ties with dealer", function() {
+    var dealerArray = [10, 9, 1];
+    var playerArray = [10, 9, 1];
+    expect(gameResult(playerArray, dealerArray)).to.equal("It's a push!");
   });
 });

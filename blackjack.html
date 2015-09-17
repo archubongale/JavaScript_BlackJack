@@ -11,25 +11,40 @@
     <div class="container">
       <h1>Blackjack</h1>
 
-      <form id="wordFrequency">
-        <div class="form-group">
-          <label for="userText">Enter some text!</label>
-          <input id="userText" type="text" class="form-control" placeholder="Ex. Hello world!" required>
-        </div>
+      <form id="blackjack">
 
-        <button type="submit" class="btn">Go!</button>
+      <button id="play" class="btn btn-info" type="submit">Play Blackjack</button>
       </form>
+      <hr>
+      <form id="hit">
+        <button id="hit" class="btn btn-success" type="submit">Hit</button>
+      </form>
+      <br>
+      <form id="stand">
+        <button id="stand" class="btn btn-warning" type="submit">Stand</button>
+      </form>
+      <hr>
+
+      <div id="player">
+        <h3>Player</h3>
+        <p><span class="player"></span></p>
+      </div>
 
       <hr>
 
-      <div id="result">
-
-        <div class="well">
-          <ul>
-          </ul>
-        </div>
-
+      <div id="dealer">
+        <h3>Dealer</h3>
+        <p><span class="dealer"></span></p>
       </div>
+
+      <hr>
+      
+      <div id="result">
+        <h3>Result</h3>
+        <p><span class="result"></span></p>
+      </div>
+
+
     </div>
   </body>
 </html>

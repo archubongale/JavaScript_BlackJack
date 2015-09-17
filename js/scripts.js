@@ -2,7 +2,6 @@ var tableHands = [];
 var dealerHand = [];
 var playerHand = [];
 
-
 var suit = function (){
   var suitName = ["spade", "heart", "diamond", "club"];
   return suitName[Math.floor((Math.random() * 4))];
@@ -27,14 +26,14 @@ var getRandomCard = function () {
 
 
 var isExisting= function(tableHands, card) {
+  var hasCard = false;
   for(var i= 0; i< tableHands.length; i++){
     var tableCard = tableHands[i];
     if (tableCard[0] === card[0] && tableCard[1]===card[1]){
-      return true;
-    } else {
-      return false;
+      hasCard = true;
     }
   }
+  return hasCard;
 };
 
 var getNewCard = function() {
@@ -59,6 +58,17 @@ var getHandValue = function(handArray){
   return valueArray;
 };
 
+var isContainAce = function(valueArray) {
+  var hasAce = false;
+  for(var i in valueArray) {
+    console.log(valueArray[i]);
+    if(valueArray[i] === 1) {
+      hasAce = true;
+    }
+  }
+  return hasAce;
+};
+
 var calculateValues = function(valueArray){
   var totalValue = 0;
   for (var i in valueArray){
@@ -71,39 +81,87 @@ var calculateValues = function(valueArray){
   return totalValue;
 };
 
-var isBust = function(handArray){
-  if (calculateValues(handArray) > 21){
-    return true;
+var gameResult = function (playerArray, dealerArray) {
+  var result = "";
+
+  var playerTotal = calculateValues(playerArray);
+  var dealerTotal = calculateValues(dealerArray);
+
+  if (playerTotal > 21){
+    result = "You busted!!";
+  } else if (dealerTotal > 21){
+    result = "Dealer busted!!";
   } else {
-    return false;
+
+       if (playerTotal > dealerTotal){
+        result = "You win!";
+      } else if(dealerTotal > playerTotal){
+        result = "Dealer win!";
+      } else {
+        result = "It's a push!";
+      }
   }
+  return result;
 };
 
-
-
-
-
-// maybe we don't need this function
-var emptyAllHands = function (){
+var allEmpty = function (){
   tableHands = [];
   dealerHand = [];
   playerHand = [];
 };
 
 
+$(document).ready(function() {
+  $("form#blackjack").submit(function() {
+    $(".player").empty();
+    $(".dealer").empty();
+    $(".result").empty();
+
+    allEmpty();
+
+    saveCardToHand(playerHand, getNewCard());
+    saveCardToHand(playerHand, getNewCard());
+    $(".player").text(playerHand);
 
 
-// $(document).ready(function() {
-//   $("form#wordFrequency").submit(function(event) {
-//     // $("ul").empty();
-//     // var text = $("input#userText").val();
-//     // var result = wordFrequencyArray(text);
-//     //
-//     // for (var i = 0; i < result.length; i++) {
-//     //   $("ul").append("<li>" + result[i][0] + " : " + result[i][1] + "</li>");
-//     // }
-//
-//     $("#result").show();
-//     event.preventDefault();
-//   });
-// });
+    saveCardToHand(dealerHand, getNewCard());
+    saveCardToHand(dealerHand, getNewCard());
+    $(".dealer").text(dealerHand);
+
+
+    $(".player").show();
+    $(".dealer").show();
+    event.preventDefault();
+  });
+
+  $("form#hit").submit(function() {
+    $(".player").empty();
+    saveCardToHand(playerHand, getNewCard());
+    $(".player").text(playerHand);
+
+
+
+    $(".player").show();
+    event.preventDefault();
+  });
+
+  $("form#stand").submit(function() {
+
+    // while (calculateValues(dealerHand) < 17) {
+    //   saveCardToHand(dealerHand, getNewCard());
+    // }
+
+    var winner = gameResult(getHandValue(playerHand), getHandValue(dealerHand));
+
+    $(".player").text(playerHand);
+    $(".dealer").text(dealerHand);
+    $(".result").text(winner);
+    console.log(winner);
+
+    $(".player").show();
+    $(".dealer").show();
+    $(".result").show();
+    event.preventDefault();
+  });
+
+});
