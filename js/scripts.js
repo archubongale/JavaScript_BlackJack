@@ -37,28 +37,57 @@ var isExisting= function(tableHands, card) {
   }
 };
 
-
 var getNewCard = function() {
   var newCard = getRandomCard();
-  while(isExisting(newCard)){
+  while(isExisting(tableHands, newCard)){
     newCard = getRandomCard();
   }
-
   return newCard;
 };
 
-var storeValueToHand = function (handArray, card){
+var saveCardToHand = function (handArray, card){
   handArray.push(card); // store the card into player's hand
   tableHands.push(card); // store the card to table hand
   return handArray;
 };
 
+var getHandValue = function(handArray){
+  var valueArray = [];
+  for (var i in handArray){
+    valueArray.push(handArray[i][1]);
+  }
+  return valueArray;
+};
+
+var calculateValues = function(valueArray){
+  var totalValue = 0;
+  for (var i in valueArray){
+    if (valueArray[i] <= 10){
+    totalValue += valueArray[i];
+    } else if (valueArray[i] > 10){
+    totalValue += 10;
+    }
+  }
+  return totalValue;
+};
+
+var isBust = function(handArray){
+  if (calculateValues(handArray) > 21){
+    return true;
+  } else {
+    return false;
+  }
+};
+
+
+
 
 
 // maybe we don't need this function
-var emptyHand = function (handArray){
-  array = [];
-  return array;
+var emptyAllHands = function (){
+  tableHands = [];
+  dealerHand = [];
+  playerHand = [];
 };
 
 
