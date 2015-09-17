@@ -1,7 +1,16 @@
-describe("wordFrequencyArray", function() {
-  it("returns 2D array of [key, value] by value", function() {
-    var text = "Fun java. Yay java!";
-    var sortedArray = [["java", 2], ["fun", 1], ["yay", 1]];
-    expect(wordFrequencyArray(text)).to.eql(sortedArray);
+describe("getCard", function() {
+  it("return a new card", function() {
+    var ourSuit = suit();
+    var ourValue = cardValue();
+    expect(getCard(ourSuit, ourValue)).to.eql([ourSuit, ourValue]);
+  });
+});
+
+describe("isExisting", function() {
+  it("Check that card does exist in the deck", function() {
+    var card = getRandomCard();
+    var tableHands = [];
+    tableHands.push(card);
+    expect(isExisting(tableHands, card)).to.equal(true);
   });
 });
